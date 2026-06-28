@@ -38,10 +38,10 @@ O tema e aplicado via `data-theme` no `<html>` e persistido no `localStorage`.
 
 ## Estrutura de templates
 
-Os templates estao organizados dentro de `theme/templates/`:
+Os templates estao organizados dentro de `templates/`, na raiz do projeto:
 
 ```
-theme/templates/
+templates/
 ├── base.html                    # Template base global (blocos de heranca)
 ├── dashboard/
 │   ├── base.html                # Layout compartilhado (sidebar + header)
