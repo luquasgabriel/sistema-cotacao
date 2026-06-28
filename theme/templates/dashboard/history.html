@@ -1,0 +1,79 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Histórico - Acesso IFAL{% endblock title %}
+
+{% block dashboard_content %}
+<div class="space-y-4">
+    <h1 class="text-2xl font-bold text-base-content">Histórico de Acessos</h1>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title text-base-content">Filtros</h3>
+            <form method="get" class="flex flex-wrap gap-2 mt-2">
+                <select name="room" class="select select-bordered select-sm bg-base-100">
+                    <option value="">Todas as salas</option>
+                    {% for room in rooms %}
+                    <option value="{{ room.pk }}" {% if request.GET.room == room.pk|slugify %}selected{% endif %}>{{ room.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="date" name="date_from" class="input input-bordered input-sm bg-base-100"
+                       value="{{ request.GET.date_from }}" />
+                <input type="date" name="date_to" class="input input-bordered input-sm bg-base-100"
+                       value="{{ request.GET.date_to }}" />
+                <button type="submit" class="btn btn-primary btn-sm text-base-content">Filtrar</button>
+                <a href="{% url 'dashboard:history' %}" class="btn btn-ghost btn-sm">Limpar</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-0">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr class="text-base-content/60">
+                            <th>Data</th>
+                            <th>Sala</th>
+                            <th>Professor</th>
+                            <th>Abertura</th>
+                            <th>Fechamento</th>
+                            <th>Duração</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr>
+                            <td>{{ session.opened_at|date:"d/m/Y" }}</td>
+                            <td>{{ session.room.name }}</td>
+                            <td>{{ session.teacher.user.get_full_name }}</td>
+                            <td>{{ session.opened_at|time:"H:i" }}</td>
+                            <td>{% if session.closed_at %}{{ session.closed_at|time:"H:i" }}{% else %}--{% endif %}</td>
+                            <td>{% if session.duration %}{{ session.duration }}{% else %}--{% endif %}</td>
+                            <td>
+                                {% if session.status == "closed" %}
+                                <span class="badge badge-success badge-sm">Concluído</span>
+                                {% elif session.status == "open" %}
+                                <span class="badge badge-info badge-sm">Em andamento</span>
+                                {% elif session.status == "cancelled" %}
+                                <span class="badge badge-warning badge-sm">Cancelada</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-8 text-base-content/40">
+                                Nenhum registro encontrado.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/pagination.html" %}
+</div>
+{% endblock dashboard_content %}

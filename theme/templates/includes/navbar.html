@@ -1,0 +1,25 @@
+{% load static %}
+<header class="bg-secondary shadow-sm">
+    <div class="navbar container mx-auto">
+        <div class="flex-1">
+            <a href="{% url 'dashboard:home' %}" class="btn btn-ghost text-xl text-base-content">
+                Acesso IFAL
+            </a>
+        </div>
+        <div class="flex-none gap-2">
+            {% if user.is_authenticated %}
+            <div class="join">
+                <a href="{% url 'admin:index' %}" class="btn btn-ghost btn-sm join-item">
+                    Admin
+                </a>
+                <form method="post" action="{% url 'logout' %}" class="join-item">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ghost btn-sm">
+                        Sair
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</header>

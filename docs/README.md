@@ -13,6 +13,7 @@ esta liberada, os alunos registram entrada e saida escaneando o QR Code da sala.
 - [Fluxos principais](fluxos.md)
 - [Analise da estrutura atual](estrutura-atual.md)
 - [Guia de desenvolvimento](desenvolvimento.md)
+- [Front-end](frontend.md)
 - [Agentes do projeto](agents/README.md)
 
 ## Convencoes

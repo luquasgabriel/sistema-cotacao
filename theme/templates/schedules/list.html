@@ -1,0 +1,93 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Horários - Acesso IFAL{% endblock title %}
+
+{% block dashboard_content %}
+<div class="space-y-4">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-base-content">Horários de Aula</h1>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body">
+            <form method="get" class="flex flex-wrap gap-2">
+                <select name="teacher" class="select select-bordered select-sm bg-base-100">
+                    <option value="">Todos os professores</option>
+                    {% for teacher in teachers %}
+                    <option value="{{ teacher.pk }}" {% if request.GET.teacher == teacher.pk|slugify %}selected{% endif %}>
+                        {{ teacher.user.get_full_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <select name="room" class="select select-bordered select-sm bg-base-100">
+                    <option value="">Todas as salas</option>
+                    {% for room in rooms %}
+                    <option value="{{ room.pk }}" {% if request.GET.room == room.pk|slugify %}selected{% endif %}>
+                        {{ room.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <select name="weekday" class="select select-bordered select-sm bg-base-100">
+                    <option value="">Todos os dias</option>
+                    <option value="0" {% if request.GET.weekday == "0" %}selected{% endif %}>Segunda</option>
+                    <option value="1" {% if request.GET.weekday == "1" %}selected{% endif %}>Terça</option>
+                    <option value="2" {% if request.GET.weekday == "2" %}selected{% endif %}>Quarta</option>
+                    <option value="3" {% if request.GET.weekday == "3" %}selected{% endif %}>Quinta</option>
+                    <option value="4" {% if request.GET.weekday == "4" %}selected{% endif %}>Sexta</option>
+                    <option value="5" {% if request.GET.weekday == "5" %}selected{% endif %}>Sábado</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm text-base-content">Filtrar</button>
+                <a href="?" class="btn btn-ghost btn-sm">Limpar</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-0">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr class="text-base-content/60">
+                            <th>Disciplina</th>
+                            <th>Professor</th>
+                            <th>Sala</th>
+                            <th>Dia</th>
+                            <th>Início</th>
+                            <th>Término</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in schedules %}
+                        <tr>
+                            <td class="font-medium">{{ schedule.subject }}</td>
+                            <td>{{ schedule.teacher.user.get_full_name }}</td>
+                            <td>{{ schedule.room.name }}</td>
+                            <td>{{ schedule.get_weekday_display }}</td>
+                            <td>{{ schedule.starts_at|time:"H:i" }}</td>
+                            <td>{{ schedule.ends_at|time:"H:i" }}</td>
+                            <td>
+                                {% if schedule.is_active %}
+                                <span class="badge badge-success badge-sm">Ativo</span>
+                                {% else %}
+                                <span class="badge badge-ghost badge-sm">Inativo</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-8 text-base-content/40">
+                                Nenhum horário cadastrado.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/pagination.html" %}
+</div>
+{% endblock dashboard_content %}

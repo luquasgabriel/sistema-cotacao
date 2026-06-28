@@ -6,3 +6,7 @@ db.sqlite3
 
 **/migrations/*
 !**/migrations/__init__.py
+
+opencode.json
+.opencode/
+staticfiles/

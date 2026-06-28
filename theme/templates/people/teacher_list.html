@@ -1,0 +1,75 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Professores - Acesso IFAL{% endblock title %}
+
+{% block dashboard_content %}
+<div class="space-y-4">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-base-content">Professores</h1>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body">
+            <form method="get" class="flex flex-wrap gap-2">
+                <input type="text" name="search" placeholder="Buscar por nome..."
+                       value="{{ request.GET.search }}"
+                       class="input input-bordered input-sm bg-base-100" />
+                <button type="submit" class="btn btn-primary btn-sm text-base-content">Filtrar</button>
+                <a href="?" class="btn btn-ghost btn-sm">Limpar</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-0">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr class="text-base-content/60">
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Cartões RFID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for teacher in teachers %}
+                        <tr>
+                            <td class="font-medium">{{ teacher.employee_number }}</td>
+                            <td>{{ teacher.user.get_full_name }}</td>
+                            <td>{{ teacher.user.email }}</td>
+                            <td>
+                                {% with active_cards=teacher.active_rfid_count %}
+                                {% if active_cards > 0 %}
+                                <span class="badge badge-success badge-sm">{{ active_cards }} ativo{{ active_cards|pluralize }}</span>
+                                {% else %}
+                                <span class="badge badge-ghost badge-sm">Sem cartão</span>
+                                {% endif %}
+                                {% endwith %}
+                            </td>
+                            <td>
+                                {% if teacher.is_active %}
+                                <span class="badge badge-success badge-sm">Ativo</span>
+                                {% else %}
+                                <span class="badge badge-ghost badge-sm">Inativo</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-8 text-base-content/40">
+                                Nenhum professor cadastrado.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/pagination.html" %}
+</div>
+{% endblock dashboard_content %}

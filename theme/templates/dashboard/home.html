@@ -1,0 +1,51 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Acesso IFAL{% endblock title %}
+
+{% block dashboard_content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+        <div class="shadow-sm rounded-xl" style="background-color: #FFFFFF;">
+            <div class="p-5">
+                <h2 class="text-lg font-semibold" style="color: #090909;">Minhas Turmas</h2>
+                {% if classes %}
+                <div class="mt-4 space-y-3">
+                    {% for class in classes %}
+                    <div class="flex items-center justify-between p-3 rounded-lg" style="background-color: #F2F4F8;">
+                        <div>
+                            <p class="font-medium" style="color: #232323;">{{ class.name }}</p>
+                            <p class="text-sm" style="color: #71717A;">{{ class.subject }}</p>
+                            <p class="text-xs" style="color: #71717A;">{{ class.schedule }} - {{ class.room }}</p>
+                        </div>
+                        <button class="btn btn-sm" style="background-color: #67C180; border: none; color: #232323;"
+                                onclick="open_room_modal.showModal()">
+                            Abrir Sala
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <p class="text-sm" style="color: #71717A;">Nenhuma turma cadastrada.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-6">
+        <div class="shadow-sm rounded-xl" style="background-color: #FFFFFF;">
+            <div class="p-5">
+                <h2 class="text-lg font-semibold" style="color: #232323;">Calendário</h2>
+                {% include "includes/calendar_week.html" %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock dashboard_content %}
+
+{% block modals %}
+{% include "access/open_room_modal.html" %}
+{% endblock modals %}

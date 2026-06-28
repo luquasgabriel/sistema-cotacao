@@ -1,0 +1,78 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Salas - Acesso IFAL{% endblock title %}
+
+{% block dashboard_content %}
+<div class="space-y-4">
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-base-content">Salas</h1>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body">
+            <form method="get" class="flex flex-wrap gap-2">
+                <input type="text" name="search" placeholder="Buscar sala..."
+                       value="{{ request.GET.search }}"
+                       class="input input-bordered input-sm bg-base-100" />
+                <select name="status" class="select select-bordered select-sm bg-base-100">
+                    <option value="">Todos os status</option>
+                    <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Livre</option>
+                    <option value="in_use" {% if request.GET.status == "in_use" %}selected{% endif %}>Em uso</option>
+                    <option value="locked" {% if request.GET.status == "locked" %}selected{% endif %}>Bloqueada</option>
+                    <option value="maintenance" {% if request.GET.status == "maintenance" %}selected{% endif %}>Manutenção</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm text-base-content">Filtrar</button>
+                <a href="?" class="btn btn-ghost btn-sm">Limpar</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-0">
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr class="text-base-content/60">
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Localização</th>
+                            <th>Capacidade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr>
+                            <td class="font-medium">{{ room.code }}</td>
+                            <td>{{ room.name }}</td>
+                            <td>{{ room.location|default:"--" }}</td>
+                            <td>{{ room.capacity|default:"--" }}</td>
+                            <td>
+                                {% if room.status == "available" %}
+                                <span class="badge badge-success badge-sm">Livre</span>
+                                {% elif room.status == "in_use" %}
+                                <span class="badge badge-info badge-sm">Em uso</span>
+                                {% elif room.status == "locked" %}
+                                <span class="badge badge-warning badge-sm">Bloqueada</span>
+                                {% elif room.status == "maintenance" %}
+                                <span class="badge badge-error badge-sm">Manutenção</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-8 text-base-content/40">
+                                Nenhuma sala cadastrada.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include "includes/pagination.html" %}
+</div>
+{% endblock dashboard_content %}

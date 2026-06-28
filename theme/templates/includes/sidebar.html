@@ -1,0 +1,51 @@
+{% load static %}
+{% url 'dashboard:home' as dashboard_url %}
+{% url 'dashboard:attendance' as attendance_url %}
+{% url 'dashboard:history' as history_url %}
+<aside class="w-64 min-h-screen flex flex-col"
+       style="background-color: #D7F5E1;">
+    <div class="flex justify-center py-6">
+        <img src="{% static 'images/logo_ifal.png' %}" alt="IFAL"
+             class="h-16 w-auto object-contain" />
+    </div>
+    <ul class="menu rounded-box flex-1 px-3">
+        <li>
+            <a href="{{ dashboard_url }}"
+               class="{% if request.path == dashboard_url %}active font-medium{% endif %}"
+               style="{% if request.path == dashboard_url %}color: #232323;{% else %}color: #4A4A4A;{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="{{ attendance_url }}"
+               class="{% if request.path == attendance_url %}active font-medium{% endif %}"
+               style="{% if request.path == attendance_url %}color: #232323;{% else %}color: #4A4A4A;{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                Presenças
+            </a>
+        </li>
+        <li>
+            <a href="{{ history_url }}"
+               class="{% if request.path == history_url %}active font-medium{% endif %}"
+               style="{% if request.path == history_url %}color: #232323;{% else %}color: #4A4A4A;{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Histórico
+            </a>
+        </li>
+    </ul>
+
+    <div class="border-t border-base-content/10 pt-4 pb-6 px-4">
+        <label class="flex items-center justify-between cursor-pointer gap-2">
+            <span class="text-sm" style="color: #71717A;">Modo escuro</span>
+            <input type="checkbox" class="toggle toggle-sm" id="darkModeToggle"
+                   onchange="toggleDarkMode()" />
+        </label>
+    </div>
+</aside>
