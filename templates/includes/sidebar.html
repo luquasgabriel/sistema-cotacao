@@ -26,7 +26,7 @@
         <ul class="menu gap-1">
             <li><a href="{{ dashboard_url }}" class="{% if request.path == dashboard_url %}active{% endif %}">Dashboard</a></li>
             <li><a href="{{ history_url }}" class="{% if request.path == history_url %}active{% endif %}">Histórico</a></li>
-            <li><a href="{{ room_status_url }}" class="{% if request.path == room_status_url %}active{% endif %}">Acesso por sala</a></li>
+            <li><a href="{{ room_status_url }}" class="{% if request.path == room_status_url %}active{% endif %}">Status das Salas</a></li>
 
             {% if user.is_staff %}
             <li class="menu-title mt-3"><span>Cadastros</span></li>
