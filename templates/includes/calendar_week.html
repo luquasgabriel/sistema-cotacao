@@ -1,44 +1,45 @@
-<div class="overflow-x-auto">
+<div class="mt-4 overflow-x-auto">
     <table class="table table-xs">
         <thead>
             <tr>
                 <th>Horário</th>
-                <th>Seg</th>
-                <th>Ter</th>
-                <th>Qua</th>
-                <th>Qui</th>
-                <th>Sex</th>
-                <th>Sáb</th>
+                {% for day in calendar_weekdays %}
+                <th>{{ day.label }}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
+            {% for row in calendar_rows %}
             <tr>
-                <th>07:30</th>
-                <td><span class="badge badge-info badge-outline">Redes</span></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <th>
+                    <span class="block">{{ row.starts_at|time:"H:i" }}</span>
+                    <span class="block text-base-content/60">{{ row.ends_at|time:"H:i" }}</span>
+                </th>
+                {% for day in row.days %}
+                <td class="p-2" style="min-width: 8rem; vertical-align: top;">
+                    <div class="space-y-1">
+                        {% for schedule in day.schedules %}
+                        <div class="rounded-lg bg-base-200 p-2">
+                            <p class="font-medium leading-tight">{{ schedule.subject }}</p>
+                            <p class="mt-1 text-base-content/60">{{ schedule.room.name }}</p>
+                            {% if request.user.is_staff %}
+                            <p class="text-base-content/60">{{ schedule.teacher.user.get_full_name }}</p>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <span class="text-base-content/20">-</span>
+                        {% endfor %}
+                    </div>
+                </td>
+                {% endfor %}
             </tr>
+            {% empty %}
             <tr>
-                <th>10:00</th>
-                <td><span class="badge badge-warning badge-outline">SO</span></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="{{ calendar_colspan }}" class="text-center py-8 text-base-content/50">
+                    Nenhum horário ativo encontrado.
+                </td>
             </tr>
-            <tr>
-                <th>13:30</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
