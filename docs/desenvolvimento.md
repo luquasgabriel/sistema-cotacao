@@ -39,6 +39,22 @@ Variaveis esperadas pelo `config/settings.py`:
 `RFID_API_TOKEN` e opcional. Quando configurada, o endpoint RFID exige header
 `Authorization: Bearer <token>`.
 
+## Dados iniciais de horarios
+
+Para preencher o banco com as salas, professores e horarios informados para a
+turma noturna, execute:
+
+```bash
+python manage.py seed_class_schedules
+```
+
+O comando e idempotente: registros existentes sao atualizados e registros
+ausentes sao criados. Para usar outro nome de turma:
+
+```bash
+python manage.py seed_class_schedules --class-group "Turma 2026.1"
+```
+
 ## Convencoes de implementacao
 
 - Nomes de modelos devem estar em ingles e no singular, por exemplo `Room` e
