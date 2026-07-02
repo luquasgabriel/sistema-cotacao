@@ -4,13 +4,13 @@ Este documento detalha as conexões físicas utilizadas no código do cliente, c
 
 ---
 
-## Esquema feito no Fritzing
+## Esquema - Fritzing
 
 ![Esquema](https://lh3.googleusercontent.com/d/1OdcU7BMJvIeZnYeSkOe968MppkN1R-nf)
 
 ---
 
-## Componentes do Sistema
+## Componentes de Hardware do Sistema
 
 | Componente | Funcionalidade Principal |
 | :--- | :--- |
