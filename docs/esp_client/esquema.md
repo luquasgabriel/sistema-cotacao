@@ -4,9 +4,23 @@ Este documento detalha as conexões físicas utilizadas no código do cliente, c
 
 ---
 
-## Esquema feito no Fritzzing
+## Esquema feito no Fritzing
 
 ![Esquema](https://lh3.googleusercontent.com/d/1OdcU7BMJvIeZnYeSkOe968MppkN1R-nf)
+
+---
+
+## Componentes do Sistema
+
+| Componente | Funcionalidade Principal |
+| :--- | :--- |
+| **ESP32** | Gerencia Wi-Fi, conexão com o servidor, lógica RFID e periféricos. |
+| **Módulo Leitor de RFID (MFRC522)** | Identificação de usuários via tags/cartões. |
+| **Servo Motor** | Mecanismo físico que simula a tranca para abertura da porta. |
+| **Display LCD I2C** | Interface visual para as mensagens de status do sistema. |
+| **DFPlayer Mini** | Módulo de áudio para feedback sonoro. |
+| **LED RGB** | Sinalização luminosa do estado do sistema. |
+| **Botão (Push-button)** | Acionamento manual da fechadura pelo lado interno. |
 
 ---
 
